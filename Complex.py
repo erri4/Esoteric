@@ -1,7 +1,7 @@
 from Rational import Rational
 import math
 
-type Number = Complex | int | Rational | int
+type Number = Complex | int | Rational | float
 
 class Complex:
     a: int | Rational
