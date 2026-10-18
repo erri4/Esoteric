@@ -1,4 +1,5 @@
 from Vector import Vector
+from Rational import Rational as Rat
 from itertools import product
 from typing import Callable, Any
 
@@ -112,8 +113,10 @@ class ZFCSet:
     cardinality: Cardinal
     definition: Callable[[Any], bool] | None
     container: frozenset | None
+    rep: str | None
 
-    def __init__(self, *args, definition = lambda x: False, cardinality = Cardinal(0)):
+    def __init__(self, *args, definition = lambda x: False, cardinality = Cardinal(0), rep: str = None):
+        self.rep = rep
         if args or cardinality == 0:
             self.cardinality = Cardinal(len(args))
             def defin(item: Any) -> bool:
@@ -199,6 +202,7 @@ class ZFCSet:
         return self.cardinality > Cardinal()
 
     def __repr__(self):
+        if self.rep is not None: return self.rep
         if self.container is not None:
             if self.container == set():
                 return r'{}'
@@ -287,3 +291,14 @@ class ZFCFunction(ZFCSet):
 
     def __repr__(self):
         return f'{self.name}: {self.dom} -> {self.range}'
+
+EMPTYSET = ZFCSet()
+ALEPH = Cardinal(1, False)
+Cardinals = ZFCSet(definition=lambda x: (type(x) is Cardinal), cardinality=ALEPH[0], rep='Cardinals')
+N = ZFCSet(definition=lambda x: (type(x) is int and x >= 0), cardinality=ALEPH[0], rep='N')
+Z = ZFCSet(definition=lambda x: (type(x) is int), cardinality=ALEPH[0], rep='Z')
+Q = ZFCSet(definition=lambda x: (type(x) is int or type(x) is Rat or type(x) is float), cardinality=ALEPH[0], rep="Q")
+Set = ZFCSet(definition=lambda x: True, cardinality=Cardinal(float('inf'), False), rep='Set') # everything is a set
+Functions = ZFCSet(definition=lambda x: (type(x) is ZFCFunction), cardinality=Cardinal(float('inf'), False), rep='Functions')
+Strings = ZFCSet(definition=lambda x: (type(x) is str), cardinality=ALEPH[0], rep='Strings') # finite strings so equiv to algebric numbers => aleph_0
+Bool = ZFCSet(True, False, rep='Bool')

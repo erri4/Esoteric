@@ -1,4 +1,4 @@
-from ZFCSet import ZFCSet, ZFCFunction, Cardinal
+from ZFCSet import *
 from Rational import Rational as Rat
 from Vector import Vector
 import math
@@ -68,25 +68,7 @@ class Operator_getter:
 
     def __pow__(self, key):
         return Operator(self.operator, end=key)
-
-EMPTYSET = ZFCSet()
-ALEPH = Cardinal(1, False)
-Cardinals = ZFCSet(definition=lambda x: (type(x) is Cardinal), cardinality=ALEPH[0])
-Cardinals.__class__ = type("Cardinalsset", (ZFCSet,), {'__repr__': lambda x: 'Cardinals', '__str__': lambda x: 'Cardinals'})
-N = ZFCSet(definition=lambda x: (type(x) is int and x >= 0), cardinality=ALEPH[0])
-N.__class__ = type("Nset", (ZFCSet,), {'__repr__': lambda x: 'N', '__str__': lambda x: 'N'})
-Z = ZFCSet(definition=lambda x: (type(x) is int), cardinality=ALEPH[0])
-Z.__class__ = type("Zset", (ZFCSet,), {'__repr__': lambda x: 'Z', '__str__': lambda x: 'Z'})
-Q = ZFCSet(definition=lambda x: (type(x) is int or type(x) is Rat or type(x) is float), cardinality=ALEPH[0])
-Q.__class__ = type("Qset", (ZFCSet,), {'__repr__': lambda x: 'Q', '__str__': lambda x: 'Q'})
-Set = ZFCSet(definition=lambda x: True, cardinality=Cardinal(float('inf'), False)) # everything is a set
-Set.__class__ = type("Setset", (ZFCSet,), {'__repr__': lambda x: 'Set', '__str__': lambda x: 'Set'})
-Functions = ZFCSet(definition=lambda x: (type(x) is ZFCFunction), cardinality=Cardinal(float('inf'), False))
-Functions.__class__ = type("Functionsset", (ZFCSet,), {'__repr__': lambda x: 'Functions', '__str__': lambda x: 'Functions'})
-Strings = ZFCSet(definition=lambda x: (type(x) is str), cardinality=ALEPH[0]) # finite strings so equiv to algebric numbers => aleph_0
-Strings.__class__ = type("Stringsset", (ZFCSet,), {'__repr__': lambda x: 'Strings', '__str__': lambda x: 'Strings'})
-Bool = ZFCSet(True, False)
-Bool.__class__ = type("Boolset", (ZFCSet,), {'__repr__': lambda x: 'Bool', '__str__': lambda x: 'Bool'})
+    
 Sigma = Operator_getter(oper.add)
 Pi = Operator_getter(oper.mul)
 Cup = Operator_getter(oper.or_)
