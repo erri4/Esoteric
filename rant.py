@@ -1,8 +1,8 @@
 import sys
 from fissix.refactor import RefactoringTool, get_fixers_from_package
 
-if len(sys.argv) < 3:
-	print('Command use:' + sys.argv[0] + ' <input> <output>')
+if len(sys.argv) < 2:
+	print('Command use:' + sys.argv[0] + ' <program>')
 	exit(1)
 
 with open(sys.argv[1]) as openfile:
@@ -30,7 +30,7 @@ with open(sys.argv[1]) as openfile:
     theFile = theFile.replace("SCREAM","print")
     theFile = theFile.replace("WHY DOES ","")
     theFile = theFile.replace("MEAN THE SAME THING AS","=")
-    theFile = theFile.replace("WHAT YOU'RE ABOUT TO TELL ME","raw_input('')")
+    theFile = theFile.replace("WHAT YOU'RE ABOUT TO TELL ME","input()")
     theFile = theFile.replace("!!!","")
     theFile = theFile.replace("WHY WOULD YOU CREATE A FUNCTION CALLED","def")
     theFile = theFile.replace("BUT WHAT IF","elif")
@@ -46,6 +46,5 @@ refactor = RefactoringTool(
 if not theFile.endswith("\n"):
     theFile += "\n"
 
-converted = str(refactor.refactor_string(theFile, str(sys.argv[2])))
-with open(sys.argv[2], 'w') as outp:
-    outp.write(converted)
+converted = str(refactor.refactor_string(theFile, str(sys.argv[1])))
+exec(converted)
